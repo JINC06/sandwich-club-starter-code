@@ -3,7 +3,9 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -43,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI( sandwich );
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
@@ -56,7 +58,51 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
 
+        TextView detailAlsoKnownAsLabel = findViewById(R.id.also_known_title_tv);
+        TextView alsoKnownTv = findViewById(R.id.also_known_tv);
+
+        TextView ingredientsTv = findViewById(R.id.ingredients_tv);
+        TextView ingredientsTvLabel = findViewById(R.id.ingredients_title_tv);
+
+        TextView originTv = findViewById(R.id.origin_tv);
+        TextView originTvLabel = findViewById(R.id.origin_title_tv);
+
+        TextView descriptionTv = findViewById(R.id.description_tv);
+        TextView descriptionTvLabel = findViewById(R.id.description_title_tv);
+
+
+        if(!sandwich.getAlsoKnownAs().isEmpty()) {
+            for (String nameAlsoKnowAs : sandwich.getAlsoKnownAs()) {
+                alsoKnownTv.append(nameAlsoKnowAs + "\n");
+            }
+        }else{
+            detailAlsoKnownAsLabel.setVisibility(View.GONE);
+            alsoKnownTv.setVisibility(View.GONE);
+        }
+
+        if(!sandwich.getIngredients().isEmpty()) {
+            for (String ingredient : sandwich.getIngredients()) {
+                ingredientsTv.append(ingredient + "\n");
+            }
+        }else{
+            ingredientsTv.setVisibility(View.GONE);
+            ingredientsTvLabel.setVisibility(View.GONE);
+        }
+
+        if( sandwich.getPlaceOfOrigin() != null && !sandwich.getPlaceOfOrigin().isEmpty()) {
+            originTv.append( sandwich.getPlaceOfOrigin() + "\n" );
+        }else{
+            originTv.setVisibility(View.GONE);
+            originTvLabel.setVisibility(View.GONE);
+        }
+
+        if(sandwich.getDescription() != null && !sandwich.getDescription().isEmpty()) {
+            descriptionTv.append(sandwich.getDescription() + "\n");
+        }else{
+            descriptionTv.setVisibility(View.GONE);
+            descriptionTvLabel.setVisibility(View.GONE);
+        }
     }
 }
